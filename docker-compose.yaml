@@ -4,10 +4,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
-    environment:
-      - REACT_APP_REDIS_HOST=redis
-      - REACT_APP_REDIS_PORT=6379
+      - "3001:80"
     depends_on:
       - redis
 
