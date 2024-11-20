@@ -1,8 +1,9 @@
 import React from 'react';
+import { BellIcon, Cog6ToothIcon, UserIcon } from '@heroicons/react/24/outline';
 
 const Header = () => {
   return (
-    <header className="bg-blue-50 p-4 flex items-center justify-between shadow-sm">
+    <header className="bg-gray-50 p-4 flex items-center justify-between shadow-sm">
       {/* Left Side - Logo and Search */}
       <div className="flex items-center space-x-4">
         {/* Logo */}
@@ -34,42 +35,26 @@ const Header = () => {
 
       {/* Right Side - User Info and Icons */}
       <div className="flex items-center space-x-6">
+        {/* User Icon */}
+        <UserIcon className="w-10 h-10 text-gray-600 bg-gray-100 rounded-full p-2" />
         {/* User Info */}
         <div className="flex items-center space-x-2">
-          <img
-            src="/path-to-user-avatar.jpg"
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full object-cover"
-          />
           <div>
             <div className="text-sm font-semibold">Jerome Bell</div>
             <div className="text-xs text-gray-500">Agronomist</div>
           </div>
-          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 3a1 1 0 01.993.883L11 4v8l4.293-4.293a1 1 0 011.32-.083l.094.083a1 1 0 01.083 1.32l-.083.094-6 6a1 1 0 01-1.32.083l-.094-.083-6-6a1 1 0 011.32-1.497l.094.083L9 12.585V4a1 1 0 011-1z" clipRule="evenodd" />
-          </svg>
         </div>
         
-        {/* Notification and Settings Icons */}
-        <div className="flex items-center space-x-4">
-          {/* Notification Icon */}
-          <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-            <svg className="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2a7 7 0 00-7 7v5l-1 1v1h16v-1l-1-1V9a7 7 0 00-7-7zM5 18h14v2H5v-2z" />
-            </svg>
-          </button>
-          
-          {/* Settings Icon */}
-          <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-            <svg className="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2a1 1 0 01.993.883L13 3v1.257a5.496 5.496 0 013.732 2.46l.883-.445a1 1 0 01.97 1.757l-.883.445a5.497 5.497 0 010 5.074l.883.445a1 1 0 01-.97 1.757l-.883-.445a5.496 5.496 0 01-3.732 2.46V21a1 1 0 01-1.993.117L11 21v-1.257a5.496 5.496 0 01-3.732-2.46l-.883.445a1 1 0 01-.97-1.757l.883-.445a5.497 5.497 0 010-5.074l-.883-.445a1 1 0 01.97-1.757l.883.445a5.496 5.496 0 013.732-2.46V3a1 1 0 011-1zm0 5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" />
-            </svg>
-          </button>
-        </div>
+        
+        {/* Notification Bell Icon */}
+        <BellIcon className="w-6 h-6 text-gray-600" />
+        
+        {/* Settings Icon */}
+        <Cog6ToothIcon className="w-6 h-6 text-gray-600" />
+        
       </div>
     </header>
   );
 };
 
 export default Header;
-
