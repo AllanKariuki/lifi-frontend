@@ -35,6 +35,11 @@ const Header = () => {
 
       {/* Right Side - User Info and Icons */}
       <div className="flex items-center space-x-6">
+        <div className={`px-3 py-1 rounded ${
+          status === 'Connected' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+        }`}>
+          {status}
+        </div>
         {/* User Icon */}
         <UserIcon className="w-10 h-10 text-gray-600 bg-gray-100 rounded-full p-2" />
         {/* User Info */}
@@ -47,10 +52,10 @@ const Header = () => {
         
         
         {/* Notification Bell Icon */}
-        <BellIcon className="w-6 h-6 text-gray-600" />
+        <BellIcon className="w-10 h-10 text-gray-600 bg-gray-100 rounded-full p-2" />
         
         {/* Settings Icon */}
-        <Cog6ToothIcon className="w-6 h-6 text-gray-600" />
+        <Cog6ToothIcon className="w-10 h-10 text-gray-600 bg-gray-100 rounded-full p-2" />
         
       </div>
     </header>

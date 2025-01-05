@@ -1,7 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const FieldMonitoring = () => {
+  const [socket, setSocket] = useState(null);
+  const [currentData, setCurrentData] = useState(null);
+  const [historicalData, setHistoricalData] = useState([]);
+  const [status, setStatus] = useState('Disconnected');
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:5000/ws');
+
+    ws.onopen = () => {
+      setStatus('Connected');
+      console.log('Connected to WebSocket server');
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        setCurrentData(data);
+        setHistoricalData(prev => [...prev.slice(-20), data]); // Keep last 20 readings
+      } catch (error) {
+        console.error('Error parsing message:', error);
+      }
+    };
+
+    ws.onclose = () => {
+      setStatus('Disconnected');
+      console.log('Disconnected from WebSocket server');
+    };
+
+    setSocket(ws);
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+  console.log('Status: ', status);
+  console.log('Current data: ', currentData.temperature);
+  console.log('Historical data: ', historicalData);
   return (
     <div className='bg-gray-50 '>
       <Header />
@@ -13,17 +51,17 @@ const FieldMonitoring = () => {
             <span className="text-xl font-bold">+</span>
           </button>
         </div>
-        <div className="bg-cover bg-center h-48 rounded-lg relative" style={{ backgroundImage: "url('/path-to-wheat-field.jpg')" }}>
+        <div className="bg-cover bg-center h-48 rounded-lg relative" style={{ backgroundImage: "url('/assets/images/bg-1.jpg')" }}>
           <div className="absolute bottom-4 left-4">
             <div className="flex space-x-2">
               <div className="bg-white px-3 py-1 rounded-full text-sm text-gray-800 shadow-md">
-                🌡️ 20°C
+                🌡️ {currentData.temperature}°C
               </div>
               <div className="bg-white px-3 py-1 rounded-full text-sm text-gray-800 shadow-md">
                 🌿 720 ppm
               </div>
               <div className="bg-white px-3 py-1 rounded-full text-sm text-gray-800 shadow-md">
-                🌧️ 15 cm/week
+                🌧️ {currentData.water_content} cm/week
               </div>
             </div>
           </div>
@@ -35,29 +73,15 @@ const FieldMonitoring = () => {
               <div className="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center text-white">
                 🌱
               </div>
-              <span className="text-gray-700">Growth: 12 cm</span>
+              <span className="text-gray-700">Growth: {currentData.growthRate} cm</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="bg-gray-500 w-8 h-8 rounded-full flex items-center justify-center text-white">
                 💧
               </div>
-              <span className="text-gray-700">Moisture: 75%</span>
+              <span className="text-gray-700">Moisture: {currentData.humidity}%</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Planted Area Card */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-xl font-semibold">Planted area</span>
-          <span className="text-gray-500">...</span>
-        </div>
-        <div className="text-3xl font-bold">120 l/ha</div>
-        <div className="text-sm text-gray-600 mb-4">Water usage</div>
-        <div className="bg-gray-200 h-32 rounded-md mt-4 flex items-center justify-center">
-          {/* Placeholder for a chart */}
-          <span className="text-gray-500">[Chart]</span>
         </div>
       </div>
 
@@ -99,6 +123,23 @@ const FieldMonitoring = () => {
             <div className="text-sm text-gray-400">Today, 12 AM • ⚫ Low</div>
           </div>
         </div>
+      </div>
+
+      {/* Planted Area Card */}
+      <div className="col-span-2 bg-white p-4 rounded-lg shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Historical Data</h2>
+            <LineChart width={800} height={400} data={historicalData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="timestamp" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
+              <Line type="monotone" dataKey="humidity" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="sunlight" stroke="#ffc658" />
+              <Line type="monotone" dataKey="water_content" stroke="#ff7300" />
+              <Line type="monotone" dataKey="growthRate" stroke="#ff0000" />
+            </LineChart>
       </div>
       
       {/* Market Integration Card */}
