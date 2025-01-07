@@ -38,7 +38,7 @@ const FieldMonitoring = () => {
     };
   }, []);
   console.log('Status: ', status);
-  console.log('Current data: ', currentData.temperature);
+  console.log('Current data: ', currentData?.temperature);
   console.log('Historical data: ', historicalData);
   return (
     <div className='bg-gray-50 '>
@@ -55,13 +55,13 @@ const FieldMonitoring = () => {
           <div className="absolute bottom-4 left-4">
             <div className="flex space-x-2">
               <div className="bg-white px-3 py-1 rounded-full text-sm text-gray-800 shadow-md">
-                🌡️ {currentData.temperature}°C
+                🌡️ {currentData?.temperature || 0}°C
               </div>
               <div className="bg-white px-3 py-1 rounded-full text-sm text-gray-800 shadow-md">
                 🌿 720 ppm
               </div>
               <div className="bg-white px-3 py-1 rounded-full text-sm text-gray-800 shadow-md">
-                🌧️ {currentData.water_content} cm/week
+                🌧️ {currentData?.water_content || 0} cm/week
               </div>
             </div>
           </div>
@@ -73,13 +73,13 @@ const FieldMonitoring = () => {
               <div className="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center text-white">
                 🌱
               </div>
-              <span className="text-gray-700">Growth: {currentData.growthRate} cm</span>
+              <span className="text-gray-700">Growth: {currentData?.growthRate || 0} cm</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="bg-gray-500 w-8 h-8 rounded-full flex items-center justify-center text-white">
                 💧
               </div>
-              <span className="text-gray-700">Moisture: {currentData.humidity}%</span>
+              <span className="text-gray-700">Moisture: {currentData?.humidity || 0}%</span>
             </div>
           </div>
         </div>
